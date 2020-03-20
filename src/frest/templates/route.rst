@@ -1,0 +1,88 @@
+from flask import Blueprint, request, abort
+from fapi.utils import http_call, model_serialize
+from fapi.decorators import check_token, admin_required
+from .models import %%NAME%%
+from .forms import %%NAME%%Form
+from database import db
+import json
+from datetime import datetime
+from pytz import timezone
+
+api = Blueprint("%%name%%s", __name__)
+
+
+@api.route("/api/%%name%%")
+def all_%%name%%s():
+    return http_call(
+        [
+            model_serialize(i, params="%%params%%")
+            for i in %%NAME%%.query.all()
+        ],
+        200,
+    )
+
+
+@api.route("/api/%%name%%/<%%name%%Id>")
+def get_%%name%%(%%name%%Id):
+    %%first_char%% = %%NAME%%.query.filter_by(%%name%%Id=%%name%%Id).first()
+    if not %%first_char%%:
+        abort(404)
+
+    return http_call(model_serialize(%%first_char%%, params="%%params%%"), 200)
+
+
+@api.route("/api/%%name%%/<%%name%%Id>", methods=["DELETE"])
+@check_token
+def delete_%%name%%(%%name%%Id):
+    %%first_char%% = %%NAME%%.query.filter_by(%%name%%Id=%%name%%Id)
+    if not %%first_char%%:
+        abort(404)
+
+    deleted = %%first_char%%.delete()
+    db.session.commit()
+
+    return http_call({"delete": deleted}, 200)
+
+
+@api.route("/api/%%name%%", methods=["POST"])
+@check_token
+def new_%%name%%():
+    if not request.json:
+        abort(400)
+
+    form = %%NAME%%Form(request.json)
+
+    if form.is_valid():
+        %%first_char%% = %%NAME%%(
+            %%params_form%%
+        )
+        db.session.add(%%first_char%%)
+
+        db.session.commit()
+
+        return http_call({"%%name%%Id": %%first_char%%.%%name%%Id}, 201)
+
+    abort(400)
+
+
+@api.route("/api/%%name%%/<%%name%%Id>", methods=["PUT"])
+@check_token
+def edit_%%name%%(%%name%%Id):
+    if not request.json:
+        abort(400)
+
+    form = %%NAME%%Form(request.json)
+
+    if form.is_valid():
+        %%first_char%% = %%NAME%%.query.filter_by(%%name%%Id=%%name%%Id).first()
+        if not %%first_char%%:
+            abort(404)
+
+        %%params_put%%    
+        %%first_char%%.updated_at = datetime.now(timezone("Europe/Rome"))
+
+        db.session.commit()
+
+        return http_call({"%%name%%Id": %%first_char%%.%%name%%Id}, 200)
+
+    abort(400)
