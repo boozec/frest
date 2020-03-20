@@ -1,7 +1,6 @@
-from flask import make_response, jsonify, abort, request, render_template
+from flask import make_response, jsonify, request, render_template
 from flask_mail import Message
 from mail import mail
-from functools import wraps
 from datetime import datetime
 import os
 

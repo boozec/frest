@@ -1,0 +1,40 @@
+from flask import request, abort 
+from auth.models import Token
+from functools import wraps
+
+
+def check_token(f):
+    @wraps(f)
+    def inner(*args, **kwargs):
+        userid = request.url.split('/')[-1]
+        headers = request.headers
+        if not headers.get("Authentication"):
+            abort(403)
+
+        auth = request.headers.get("Authentication")
+        token = Token.query.filter_by(string=auth).first()
+        if not token:
+            abort(403)
+
+        if userid.isdigit():
+            if int(userid) != token.user.userId and not token.user.is_admin:
+                abort(403)
+
+        return f(*args, **kwargs)
+
+    return inner
+
+
+def admin_required(f):
+    @wraps(f)
+    def inner(*args, **kwargs):
+        header = request.headers
+
+        auth = request.headers.get("Authentication")
+        token = Token.query.filter_by(string=auth).first()
+        if not token.user.is_admin:
+            abort(403)
+
+        return f(*args, **kwargs)
+
+    return inner
