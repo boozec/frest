@@ -8,10 +8,10 @@ def check_token(f):
     def inner(*args, **kwargs):
         userid = request.url.split('/')[-1]
         headers = request.headers
-        if not headers.get("Authentication"):
+        if not headers.get("Authorization"):
             abort(403)
 
-        auth = request.headers.get("Authentication")
+        auth = request.headers.get("Authorization")
         token = Token.query.filter_by(string=auth).first()
         if not token:
             abort(403)
@@ -30,7 +30,7 @@ def admin_required(f):
     def inner(*args, **kwargs):
         header = request.headers
 
-        auth = request.headers.get("Authentication")
+        auth = request.headers.get("Authorization")
         token = Token.query.filter_by(string=auth).first()
         if not token.user.is_admin:
             abort(403)

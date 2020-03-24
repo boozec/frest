@@ -17,7 +17,7 @@ def login():
 
     data = request.json
 
-    auth = request.headers.get("Authentication")
+    auth = request.headers.get("Authorization")
     if auth:
         t = Token.query.filter_by(string=auth).first()
         if not t:
