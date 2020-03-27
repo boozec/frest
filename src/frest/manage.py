@@ -13,7 +13,7 @@ def main():
         if not os.path.exists("scheme"):
             logging_arg("Create {}... ", "scheme/")
             logging("OK", 3, "\n")
-            os.makedirs("scheme")
+            os.mkdir("scheme")
 
         create_app(args.startapp)
 
