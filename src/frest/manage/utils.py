@@ -1,26 +1,16 @@
-class bcolors(object):
-    DARK_GREY = "\033[90m"
-    BOLD = "\033[1m"
-    ERROR = "\033[91m"
-    OK = "\033[92m"
-    WARNING = "\033[93m"
-    ENDC = "\033[0m"
+import os
+from .bcolors import COLORS 
 
 
-COLORS = [
-    bcolors.DARK_GREY,
-    bcolors.BOLD,
-    bcolors.ERROR,
-    bcolors.OK,
-    bcolors.WARNING,
-    bcolors.ENDC,
-]
 ENDC = len(COLORS) - 1
-
 
 def logging(text, _type=ENDC, end=""):
     print(f"{COLORS[_type]}{text}{COLORS[ENDC]}", end=end)
 
+
+def logging_arg(text, *args):
+    args = [f"{COLORS[0]}{i}{COLORS[ENDC]}" for i in args]
+    print(text.format(*args), end="")
 
 def logo():
     print(

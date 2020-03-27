@@ -1,6 +1,6 @@
 import argparse
 from manage.utils import logo, create_app
-from manage.utils import logging
+from manage.utils import logging, logging_arg
 import os
 
 
@@ -11,13 +11,11 @@ def main():
 
     if args.startapp:
         if not os.path.exists("scheme"):
-            logging("Create ")
-            logging("scheme/", 0)
-            logging("... ")
+            logging_arg("Create {}... ", "scheme/")
             logging("OK", 3, "\n")
             os.makedirs("scheme")
 
-        create_app(args.startapp.lower())
+        create_app(args.startapp)
 
 
 if __name__ == "__main__":
