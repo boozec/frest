@@ -1,4 +1,4 @@
-from flask import request, abort 
+from flask import request, abort
 from auth.models import Token
 from functools import wraps
 
@@ -6,7 +6,7 @@ from functools import wraps
 def check_token(f):
     @wraps(f)
     def inner(*args, **kwargs):
-        userid = request.url.split('/')[-1]
+        userid = request.url.split("/")[-1]
         headers = request.headers
         if not headers.get("Authorization"):
             abort(403)
