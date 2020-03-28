@@ -112,7 +112,12 @@ def create_model_cli(name):
 
 
 def create_app(name):
-    name = name.lower()
+    name = name.lower().replace('-', '_')
+
+    if name.isdigit() or name[0].isdigit():
+        logging("Name cannot be a number o starts with a number", 2)
+        return
+
     if len(name) < 2:
         logging("Name of app must be minimun 2 characters long", 2)
         return
