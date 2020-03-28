@@ -98,21 +98,58 @@ def create_model_cli(name):
         "\n\n",
     )
     fields = []
-    logging("Create field: (Y/n)")
+    logging("Create field? (Y/n): ")
     answer = inputsr()
 
     while answer in ["y", "", "yes"]:
         field = create_field(fields)
         fields.append(field)
 
-        logging("Create new field: (Y/n)")
+        logging("Create new field? (Y/n): ")
         answer = inputsr()
 
-    return fields
+    fields_string = ""
+    init_fields_s = ""
+    for field in fields:
+        field_string = f"{field['name']} = db.Column("
+        if field["type"] == "int":
+            field_string += "db.Integer"
+        elif field["type"] == "str":
+            field_string += f"db.String({field['size']})"
+        elif field["type"] == "text":
+            field_string += "db.Text"
+        elif field["type"] == "datetime":
+            field_string += "db.Datetime"
+        elif field["type"] == "float":
+            field_string += "db.Float"
+        else:
+            field_string += "db.Boolean"
+
+        field_string += f", nullable={field['nullable']})\n\t".replace("\t", " " * 4)
+
+        fields_string += field_string
+        init_fields_s += f"self.{field['name']} = kwargs.get('{field['name']}')\n\t\t".replace(
+            "'", '"'
+        ).replace(
+            "\t", " " * 4
+        )
+
+    with open("templates/models.txt") as f:
+        modeltext = "".join(f.readlines())
+
+    modeltext = modeltext.replace("%%NAME%%", name.capitalize())
+    modeltext = modeltext.replace("%%name%%", name)
+    modeltext = modeltext.replace("%%params_model%%", fields_string[:-5])
+    modeltext = modeltext.replace("%%params_model_init%%", init_fields_s[:-9])
+
+    modelpath = f"scheme/{name}/models.py"
+    logging_arg("Create {}... ", modelpath)
+    with open(modelpath, "w") as f:
+        f.write(modeltext)
 
 
 def create_app(name):
-    name = name.lower().replace('-', '_')
+    name = name.lower().replace("-", "_")
 
     if name.isdigit() or name[0].isdigit():
         logging("Name cannot be a number o starts with a number", 2)
@@ -135,6 +172,5 @@ def create_app(name):
     logging("OK", 3, "\n")
 
     logging_arg("Create model for {}...\n", name)
-    fields = create_model_cli(name)
-    print(fields)
+    create_model_cli(name)
     logging("OK", 3, "\n")
