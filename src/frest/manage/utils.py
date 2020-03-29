@@ -147,6 +147,8 @@ def create_model_cli(name):
     with open(modelpath, "w") as f:
         f.write(modeltext)
 
+    return fields
+
 
 def create_forms(name):
     with open("templates/form.txt") as f:
@@ -155,6 +157,37 @@ def create_forms(name):
     formstext = formstext.replace("%%NAME%%", name.capitalize())
     with open(f"scheme/{name}/forms.py", "w") as f:
         f.write(formstext)
+
+
+def create_routes(name, fields):
+    fields_l = [f"{name}Id"]
+    fields_l.extend([i["name"] for i in fields])
+    fields_l.extend(["created_at", "updated_at"])
+
+    params_form = ""
+    for i in fields:
+        params_form += f"{i['name']}=form.get('{i['name']}'),\n\t\t\t".replace(
+            "'", '"'
+        ).replace("\t", " " * 4)
+
+    params_put = ""
+    for i in fields:
+        params_put += f"{name[0]}.{i['name']} = form.get('{i['name']}')\n\t\t".replace(
+            "'", '"'
+        ).replace("\t", " " * 4)
+
+    with open("templates/routes.txt") as f:
+        routestext = "".join(f.readlines())
+
+    routestext = routestext.replace("%%NAME%%", name.capitalize())
+    routestext = routestext.replace("%%name%%", name)
+    routestext = routestext.replace("%%params%%", ",".join(fields_l))
+    routestext = routestext.replace("%%first_char%%", name[0])
+    routestext = routestext.replace("%%params_form%%", params_form[:-13])
+    routestext = routestext.replace("%%params_put%%", params_put[:-9])
+
+    with open(f"scheme/{name}/routes.py", "w") as f:
+        f.write(routestext)
 
 
 def create_app(name):
@@ -181,9 +214,13 @@ def create_app(name):
     logging("OK", 3, "\n")
 
     logging_arg("Create model for {}...\n", name)
-    create_model_cli(name)
+    fields = create_model_cli(name)
     logging("OK", 3, "\n")
 
     logging_arg("Create {}... ", f"scheme/{name}/forms.py")
     create_forms(name)
+    logging("OK", 3, "\n")
+
+    logging_arg("Create {}... ", f"scheme/{name}/routes.py")
+    create_routes(name, fields)
     logging("OK", 3, "\n")
