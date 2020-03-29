@@ -148,6 +148,15 @@ def create_model_cli(name):
         f.write(modeltext)
 
 
+def create_forms(name):
+    with open("templates/form.txt") as f:
+        formstext = "".join(f.readlines())
+
+    formstext = formstext.replace("%%NAME%%", name.capitalize())
+    with open(f"scheme/{name}/forms.py", "w") as f:
+        f.write(formstext)
+
+
 def create_app(name):
     name = name.lower().replace("-", "_")
 
@@ -173,4 +182,8 @@ def create_app(name):
 
     logging_arg("Create model for {}...\n", name)
     create_model_cli(name)
+    logging("OK", 3, "\n")
+
+    logging_arg("Create {}... ", f"scheme/{name}/forms.py")
+    create_forms(name)
     logging("OK", 3, "\n")
