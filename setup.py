@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="frest",
-    version="0.0.17",
+    version="0.0.19",
     author="Santo Cariotti",
     description="Write REST API quickly",
     url="https://github.com/dcariotti/frest",

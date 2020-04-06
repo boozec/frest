@@ -1,7 +1,7 @@
 import os
 from .bcolors import COLORS
 import re
-
+import frest
 
 ENDC = len(COLORS) - 1
 TEMPLATE_PATH = os.path.join(frest.__path__[0], "templates")
