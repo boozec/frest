@@ -1,6 +1,6 @@
 from flask import make_response, jsonify, request, render_template
 from flask_mail import Message
-from mail import mail
+from frest.mail import mail
 from datetime import datetime
 import os
 

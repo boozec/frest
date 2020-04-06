@@ -164,7 +164,7 @@ def edit_user(userId):
         abort(400)
 
     if form.get("password"):
-        psw = True 
+        psw = True
     else:
         psw = False
 

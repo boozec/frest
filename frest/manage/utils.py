@@ -1,8 +1,10 @@
 import os
 from .bcolors import COLORS
+import re
 
 
 ENDC = len(COLORS) - 1
+TEMPLATE_PATH = os.path.join(frest.__path__[0], "templates")
 
 
 def logging(text, _type=ENDC, end=""):
@@ -134,7 +136,7 @@ def create_model_cli(name):
             "\t", " " * 4
         )
 
-    with open("templates/models.txt") as f:
+    with open(os.path.join(TEMPLATE_PATH, "models.txt")) as f:
         modeltext = "".join(f.readlines())
 
     modeltext = modeltext.replace("%%NAME%%", name.capitalize())
@@ -151,7 +153,7 @@ def create_model_cli(name):
 
 
 def create_forms(name):
-    with open("templates/form.txt") as f:
+    with open(os.path.join(TEMPLATE_PATH, "form.txt")) as f:
         formstext = "".join(f.readlines())
 
     formstext = formstext.replace("%%NAME%%", name.capitalize())
@@ -176,7 +178,7 @@ def create_routes(name, fields):
             "'", '"'
         ).replace("\t", " " * 4)
 
-    with open("templates/routes.txt") as f:
+    with open(os.path.join(TEMPLATE_PATH, "routes.txt")) as f:
         routestext = "".join(f.readlines())
 
     routestext = routestext.replace("%%NAME%%", name.capitalize())
