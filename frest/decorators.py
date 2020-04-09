@@ -1,5 +1,5 @@
 from flask import request, abort
-from auth.models import Token
+from frest.auth.models import Token
 from functools import wraps
 
 

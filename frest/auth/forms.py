@@ -1,5 +1,5 @@
 from .models import User
-from forms import ModelForm
+from frest.forms import ModelForm
 
 
 class UserForm(ModelForm):

@@ -6,7 +6,7 @@ from database import config as db_config
 from mail import mail
 from mail import config as mail_config
 from flask_sqlalchemy import SQLAlchemy
-from utils import http_call
+from frest.utils import http_call
 from flask_cors import CORS
 import os
 

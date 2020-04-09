@@ -1,5 +1,5 @@
 from flask import Blueprint, request, abort
-from utils import http_call, model_serialize
+from frest.utils import http_call, model_serialize
 from frest.decorators import check_token, admin_required
 from .models import User, Token
 from .forms import UserForm
