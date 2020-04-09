@@ -121,7 +121,7 @@ def create_model_cli(name):
         elif field["type"] == "text":
             field_string += "db.Text"
         elif field["type"] == "datetime":
-            field_string += "db.Datetime"
+            field_string += "db.DateTime"
         elif field["type"] == "float":
             field_string += "db.Float"
         else:
