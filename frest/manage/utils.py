@@ -226,3 +226,25 @@ def create_app(name):
     logging_arg("Create {}... ", f"scheme/{name}/routes.py")
     create_routes(name, fields)
     logging("OK", 3, "\n")
+
+
+def init_project(name):
+    logging_arg("Create {}... ", f"{name}/")
+    os.mkdir(f"{name}")
+    logging("OK", 3, "\n")
+
+    path = f"{name}/__init__.py"
+    logging_arg("Create {}... ", path)
+    open(path, "w").close()
+    logging("OK", 3, "\n")
+
+    paths = ["app", "database", "mail", "wsgi"]
+    for path in paths:
+        logging_arg("Create {}... ", f"{name}/{path}.py")
+        with open(os.path.join(TEMPLATE_PATH, f"{path}.txt")) as f:
+            text = "".join(f.readlines())
+
+        with open(f"{name}/{path}.py", "w") as f:
+            f.write(text)
+
+        logging("OK", 3, "\n")

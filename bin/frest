@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 
 import argparse
-from frest.manage.utils import logo, create_app
+from frest.manage.utils import logo, create_app, init_project
 from frest.manage.utils import logging, logging_arg
 import os
+import sys
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--startapp", "-s", type=str, help="create new app")
+    parser.add_argument("--init", "-", type=str, help="create new project")
     args = parser.parse_args()
 
     if args.startapp:
@@ -18,6 +20,13 @@ def main():
             os.mkdir("scheme")
 
         create_app(args.startapp)
+    elif args.init:
+        appname = args.init
+        if os.path.exists(appname):
+            logging("App already exists", 2, "\n")
+            sys.exit(1)
+
+        init_project(appname)
 
 
 if __name__ == "__main__":
