@@ -1,6 +1,6 @@
-flask
-flask_cors
-flask_sqlalchemy
-flask-mail
-pytz
-argparse
+flask==1.1.1
+flask_cors==3.0.8
+flask_sqlalchemy==2.3.0
+flask-mail==0.9.1
+pytz==2018.5
+argparse==1.1
