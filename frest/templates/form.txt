@@ -1,5 +1,5 @@
 from .models import %%NAME%%
-from src.forms import ModelForm
+from frest.forms import ModelForm
 
 
 class %%NAME%%Form(ModelForm):
