@@ -15,7 +15,7 @@ def generate_token():
 class User(db.Model):
     userId = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(30))
-    password = db.Column(db.String(30))
+    password = db.Column(db.String(256))
     is_admin = db.Column(db.Boolean, default=False)
     name = db.Column(db.String(30))
     created_at = db.Column(db.DateTime)
