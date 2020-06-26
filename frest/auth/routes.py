@@ -101,7 +101,7 @@ def new_user():
             email=form.get("email"),
             password=form.get("password"),
             name=form.get("name"),
-            is_admin=form.get("is_admin"),
+            is_admin=False,
         )
         t = Token(user=u)
         db.session.add(u)
