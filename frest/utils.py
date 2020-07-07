@@ -33,12 +33,18 @@ def model_serialize(obj, params="", extend_model_for=[]):
                 for v in value:
                     for i in extend_model_for:
                         if isinstance(v, i):
-                            _l.append(v.as_json())
+                            if hasattr(v, 'as_json'):
+                                _l.append(v.as_json())
+                            else:
+                                _l.append(v)
 
                 fields[key] = _l
             else:
                 for i in extend_model_for:
                     if isinstance(value, i):
-                        fields[key] = value.as_json()
+                        if hasattr(value, 'as_json'):
+                            fields[key] = value.as_json()
+                        else:
+                            fields[key] = value
 
     return fields
