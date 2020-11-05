@@ -33,6 +33,16 @@ class User(db.Model):
     def __repr__(self):
         return f"<User '{self.userId}'>"
 
+    def as_json(self):
+        _d = {
+            "userId": self.userId,
+            "email": self.email,
+            "is_admin": self.is_admin,
+            "name": self.name,
+            "created_at": self.created_at,
+        }
+        return _d
+
 
 class Token(db.Model):
     tokenId = db.Column(db.Integer, primary_key=True)
