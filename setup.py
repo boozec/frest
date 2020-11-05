@@ -16,7 +16,7 @@ def requirements():
 
 setuptools.setup(
     name="frest",
-    version="0.1.0",
+    version="0.1.5",
     author="Santo Cariotti",
     description="Write REST API quickly",
     long_description=long_description,
