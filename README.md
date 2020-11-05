@@ -41,7 +41,7 @@ It will create a project tree folder like this one:
 Inside `project` folder, we start to create a new app. For example, we want to store books inside our database.
 ```
 (env) $ cd project/
-(env) $ pip --startapp book
+(env) $ frest --startapp book
 ```
 
 It will print something like this:
